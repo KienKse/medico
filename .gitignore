@@ -18,6 +18,8 @@
 *.ipr
 /out/
 
+*.jar
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
