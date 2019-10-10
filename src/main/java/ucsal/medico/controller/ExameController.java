@@ -1,5 +1,6 @@
 package ucsal.medico.controller;
 
+import org.springframework.http.HttpStatus;
 import ucsal.medico.model.Exame;
 import ucsal.medico.service.ExameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,12 @@ public class ExameController {
     // Add Exame
     // @RequestMapping(path = "/add", method = RequestMethod.POST)
     @PostMapping("/add")
-    public Exame addNewExame(@Valid @RequestBody Exame request) {
-        return exameService.addNewExame(request);
+    public ResponseEntity addNewExame(@Valid @RequestBody Exame request) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(exameService.addNewExame(request));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     // Get - Exame

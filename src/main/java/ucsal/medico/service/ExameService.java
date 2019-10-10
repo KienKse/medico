@@ -1,5 +1,7 @@
 package ucsal.medico.service;
 
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.transaction.annotation.Transactional;
 import ucsal.medico.model.Exame;
 import ucsal.medico.repository.ExameRepository;
 import org.slf4j.Logger;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ucsal.medico.controller.ResourceNotFoundException;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,8 +29,9 @@ public class ExameService {
         return exameRepository.findAll();
     }
 
+    @Transactional(rollbackFor = SQLIntegrityConstraintViolationException.class)
+//    @Transactional(rollbackFor = DataIntegrityViolationException.class)
     public Exame addNewExame(Exame request) {
-
         Exame exame = new Exame(request);
 
         return exameRepository.save(exame);
